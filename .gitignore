@@ -1,0 +1,14 @@
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+
+/.quarto/
+*Rproj
+/.DS_Store
+*_files/
+*_publish.yml
+*_site/
+*_cache
+*.R
+*_quarto.yml
