@@ -1,0 +1,1 @@
+Sitemap: https://PythonGoaler.github.io/golf_analysis/sitemap.xml

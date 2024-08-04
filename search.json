@@ -1,0 +1,44 @@
+[
+  {
+    "objectID": "sources.html",
+    "href": "sources.html",
+    "title": "Sources",
+    "section": "",
+    "text": "These are my sources\n\nData Golf  Chat GPT"
+  },
+  {
+    "objectID": "second-graph.html",
+    "href": "second-graph.html",
+    "title": "Driving Distance",
+    "section": "",
+    "text": "# A tibble: 1 × 2\n   .row  odds\n  &lt;int&gt; &lt;dbl&gt;\n1     1 0.063\n\n\n# A tibble: 1 × 2\n   .row  odds\n  &lt;int&gt; &lt;dbl&gt;\n1     1 0.856\n\n\n\nSo 6% of the time at tournaments PGA players could drive over 300 yards on average. However, 86% of the time at tournament, they could drive it over 280 yards on average. Different factors can disrupt this, such as the difficulty of the course making it trickier to drive longer. However, in general, we see that gaining those extra 20 yards is extremely difficult."
+  },
+  {
+    "objectID": "model.html",
+    "href": "model.html",
+    "title": "Model",
+    "section": "",
+    "text": "I used the same model for all graphs, but a different formula for yardage.\nI used a Gaussian Predictive Model (GPM) to calculate the average score to par, driving distance, and course yardage based on data from 91 PGA golf courses.\nFor the first two graphs -\nThe model follows the formula:\n\\[\ny_i = \\mu + \\epsilon_i\n\\]\nWhere:\n\nyi is the average score or driving distance of course i.\n\\(\\mu\\) is the average score or driving distance across all PGA courses.\nThe error term i, the difference between the observed and predicted value, follows a normal distribution with mean 0 which can be written as:\n\n\\[\n\\epsilon_i \\sim \\mathcal{N}(0, \\sigma^2)\n\\]  \nFor the last graph, the model follows the formula\n\\[\nscore_i = \\beta_0 + \\beta_1 \\cdot yardage_i + \\epsilon_i\n\\] Where:\n\n\\(\\beta_0\\) is the intercept term\n\\(\\beta_1\\) is the coefficient for the yardage\nyardagei is the yardage for the i-th observation\n\\(\\epsilon_i\\), the error term, is difference between the observed and predicted value, follows a normal distribution with mean 0 which can be written as:\n\n\\[\n\\epsilon_i \\sim \\mathcal{N}(0, \\sigma^2)\n\\]\nDetails about model used-\n\n\n Family: gaussian \n  Links: mu = identity; sigma = identity \nFormula: adj_score_to_par ~ 1 \n   Data: first_model (Number of observations: 91) \n  Draws: 4 chains, each with iter = 2000; warmup = 1000; thin = 1;\n         total post-warmup draws = 4000\n\nRegression Coefficients:\n          Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS\nIntercept    -0.01      0.17    -0.33     0.32 1.00     3051     2486\n\nFurther Distributional Parameters:\n      Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS\nsigma     1.55      0.12     1.35     1.80 1.00     3195     2271\n\nDraws were sampled using sampling(NUTS). For each parameter, Bulk_ESS\nand Tail_ESS are effective sample size measures, and Rhat is the potential\nscale reduction factor on split chains (at convergence, Rhat = 1).\n\n\nFor first graph -\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nCharacteristic\nBeta\n95% CI\n1\n\n\n\n\n(Intercept)\n-0.01\n-0.33, 0.32\n\n\n\n1\nCI = Credible Interval\n\n\n\n\n\n\n\n\n\nFor second graph -\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nCharacteristic\nBeta\n95% CI\n1\n\n\n\n\n(Intercept)\n288\n287, 290\n\n\n\n1\nCI = Credible Interval\n\n\n\n\n\n\n\n\n\nFor third graph -\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nCharacteristic\nBeta\n95% CI\n1\n\n\n\n\n(Intercept)\n7,221\n7,183, 7,261\n\n\n\n1\nCI = Credible Interval"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Three Interesting Takeaways From The Game of Golf",
+    "section": "",
+    "text": "Probability of Course Playing above Par: 0.50875"
+  },
+  {
+    "objectID": "index.html#overview",
+    "href": "index.html#overview",
+    "title": "Three Interesting Takeaways From The Game of Golf",
+    "section": "",
+    "text": "Probability of Course Playing above Par: 0.50875"
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "Hi! My name is Zephan Shivam, and I’m a middle schooler from Austin, Texas.\nYou can see this project and much more at my github, https://github.com/PythonGoaler. If you want to contact me directly, you can contact me at my email, fearlessfan03 @ gmail dot com.\nI made this project because I’m passionate about golf and wanted to explore it more. If you want to see details of my various projcets, here is my github repo - https://github.com/PythonGoaler\nThis project was created as a part of Kane’s Data Science Bootcamp"
+  }
+]
