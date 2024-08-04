@@ -10,7 +10,7 @@ execute:
 ---
 ## Overview
 
-##### Using data about 91 PGA courses, this project models three variables in the dataset to draw deep and interesting conclusions. More specifically, the project modeled the score, driving distance, and yardage. I used a predictive model for all three of the graphs. For the predictive models, we see how the difficulty of courses are well balanced, driving over 300 yards is very tough while driving over 280 yards is easy, and finally, we see that yardage has no effect on the score.
+##### Using data about 91 PGA courses, this project models three variables in the dataset to draw deep and interesting conclusions about golf. More specifically, the project modeled the score, driving distance, and yardage. I used a predictive model for all three of the graphs. For the predictive models, we see how the difficulty of courses are well balanced, driving over 300 yards is very tough while driving over 280 yards is easy, and finally, we see that yardage has no effect on the score.
 
 <br> 
 ```{r}
