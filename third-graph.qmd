@@ -1,0 +1,92 @@
+---
+title: "Effect of Course Yardage on Score"
+format: html
+css: styles.css
+execute:
+  echo: false
+  message: false
+  warning: false
+---
+
+```{r}
+library(brms)
+library(tidyverse)
+library(tidybayes)
+library(viridis)
+```
+
+```{r}
+golf_data <- read_csv('dg_new_course_table.csv')
+```
+
+```{r}
+#| cache: TRUE
+# Fit your model
+fit_gauss <- brm(
+  formula = adj_score_to_par ~ yardage, 
+  data = golf_data, 
+  family = gaussian(), 
+  refresh = 0, 
+  silent = 2, 
+  seed = 9
+)
+
+```
+
+```{r}
+# Create a sequence of yardage values for prediction
+yardage_seq <- tibble(yardage = seq(min(golf_data$yardage), max(golf_data$yardage), length.out = 100))
+
+# Add predicted draws for these yardage values
+predicted_data <- yardage_seq %>%
+  add_predicted_draws(fit_gauss)
+```
+
+```{r}
+# Plot the density of the predictions for each yardage value
+ggplot(predicted_data, aes(x = .prediction, group = yardage, color = yardage)) +
+  geom_density(alpha = 0.6, size = 0.4) +  # Adjusted transparency and line thickness
+  labs(
+    title = "Predictive Posterior for Relation between Yardage and Score",
+    subtitle = "Each line represents a separate yardage",
+    x = "Predicted Score",
+    y = "Density",  # Changed to 'Density' to better match geom_density()
+    color = "Yardage"
+  ) +
+  theme_minimal() +
+  theme(
+    legend.position = "right",  # Show legend for better understanding
+    legend.title = element_text(size = 12, face = "bold"),
+    legend.text = element_text(size = 10),
+    axis.title = element_text(size = 12, face = "bold"),
+    axis.text = element_text(size = 10),
+    panel.grid.major = element_line(color = "grey90"),
+    panel.grid.minor = element_blank()
+  ) +
+  scale_color_viridis_c(option = "plasma", begin = 0.1, end = 0.9) +  # Adjust gradient
+  guides(color = guide_colorbar(barwidth = 1.5, barheight = 10))  
+# Adjust legend size
+
+ggplot(predicted_data, aes(x = .prediction, group = yardage, color = yardage)) +
+  geom_density(alpha = 0.6, size = 0.4) +  # Adjusted transparency and line thickness
+  geom_rug(sides = "b", alpha = 0.3, color = "black") +  # Added rug plot for data points
+  labs(
+    title = "Predictive Posterior for Relation between Yardage and Score",
+    subtitle = "Each line represents a separate yardage",
+    x = "Predicted Score",
+    y = "Density",  # Changed to 'Density' to better match geom_density()
+    color = "Yardage"
+  ) +
+  theme_light() +  # Changed theme for a different look
+  theme(
+    legend.position = "right",  # Show legend for better understanding
+    legend.title = element_text(size = 12, face = "bold"),
+    legend.text = element_text(size = 10),
+    axis.title = element_text(size = 12, face = "bold"),
+    axis.text = element_text(size = 10, angle = 45, hjust = 1),  # Rotated x-axis labels for better readability
+    panel.grid.major = element_line(color = "grey90"),
+    panel.grid.minor = element_blank()
+  ) +
+  scale_color_viridis_c(option = "plasma", begin = 0.1, end = 0.9) +  # Adjust gradient
+  guides(color = guide_colorbar(barwidth = 1.5, barheight = 10))  # Adjust legend size
+```

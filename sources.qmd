@@ -1,0 +1,13 @@
+---
+title: "Sources"
+---
+
+These are my sources
+
+<div class = "sources">
+ [Data Golf](https://datagolf.com/)
+ <br>
+ [Chat GPT](https://chatgpt.com/)
+ <br>
+
+</div>

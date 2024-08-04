@@ -1,0 +1,14 @@
+---
+title: "About"
+css: styles.css
+---
+
+<div class = "about">
+Hi! My name is Zephan Shivam, and I’m a middle schooler from Austin, Texas.
+
+You can see this project and much more at my github, <https://github.com/PythonGoaler>. If you want to contact me directly, you can contact me at my email, fearlessfan03 @ gmail dot com.
+
+I made this project because I’m passionate about golf and wanted to explore it more. If you want to see details of my various projcets, here is my github repo - <https://github.com/PythonGoaler>
+
+This project was created as a part of [Kane's Data Science Bootcamp]( https://bootcamp.davidkane.info/)
+<div>

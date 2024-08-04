@@ -1,0 +1,71 @@
+---
+title: "Three Interesting Takeaways From The Game of Golf"
+subtitle: "By Zephan Shivam"
+format: html
+css: styles.css
+execute:
+  echo: false
+  message: false
+  warning: false
+---
+## Overview
+
+##### Using data about 91 PGA courses, this project models three variables in the dataset to draw deep and interesting conclusions. More specifically, the project modeled the score, driving distance, and yardage. I used a predictive model for all three of the graphs. For the predictive models, we see how the difficulty of courses are well balanced, driving over 300 yards is very tough while driving over 280 yards is easy, and finally, we see that yardage has no effect on the score.
+
+<br> 
+```{r}
+library(tidyverse)
+library(brms)
+library(tidybayes)
+library(gtsummary)
+library(viridis)
+```
+
+```{r}
+golf_data <- read_csv("dg_new_course_table.csv")
+```
+
+```{r}
+#| echo: false
+#| cache: TRUE 
+
+model_data_1 <- brm(formula = adj_score_to_par ~ 1, data = golf_data, family = gaussian(), silent = 2, refresh = 0, seed = 12)
+```
+
+```{r}
+newdata <- tibble(.rows = 1)
+ndata <- tibble(.rows = 1)
+```
+
+```{r}
+ggplot(model_data_1 |> add_predicted_draws(newdata = ndata), aes(x = .prediction)) + 
+  geom_histogram(aes(y = after_stat(count / sum(count))), bins = 50, fill = "cyan", color = "black", alpha = 0.8) +  # Adjusted color and alpha
+  labs(
+    title = "Posterior Distribution for Course Difficulty",
+    subtitle = "Relative to Par for Random PGA Course",
+    x = "Course Difficulty in Relation to Par",
+    y = "Probability"
+  ) + 
+  scale_x_continuous(labels = scales::number_format()) + 
+  scale_y_continuous(labels = scales::percent_format(accuracy = 1)) + 
+  theme_minimal() +
+  theme(
+    plot.title = element_text(face = "bold", size = 16, color = "darkblue"),  # Improved title
+    plot.subtitle = element_text(size = 12, color = "darkblue"),  # Added subtitle
+    axis.title = element_text(size = 14, face = "bold"),
+    axis.text = element_text(size = 12),
+    panel.grid.major = element_line(color = "grey90"),
+    panel.grid.minor = element_blank(),
+    plot.background = element_rect(fill = "white", color = NA)  # Improved background
+  ) +
+  scale_fill_viridis_c(option = "plasma")  # Optional: apply Viridis color scale
+```
+
+```{r}
+model_data_1 |> 
+  add_predicted_draws(newdata = ndata) |>
+  mutate(above_par = if_else(.prediction > 0, TRUE, FALSE)) |>
+  summarize(odds = mean(above_par))
+
+```
+#### In this run of the model, we see that there is about a 50% chance for the course to be playing above par. This shows that there's a good balance between hard and easy courses in the PGA.

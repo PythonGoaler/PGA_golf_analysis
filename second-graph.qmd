@@ -1,0 +1,66 @@
+---
+title: "Driving Distance"
+format: html
+css: styles.css
+execute: 
+  echo: false
+  message: false
+  warning: false
+---
+
+```{r}
+library(tidyverse)
+library(brms)
+library(tidybayes)
+library(gtsummary)
+```
+
+```{r}
+#| echo: false
+golf_data <- read_csv("dg_new_course_table.csv")
+
+first_model <- golf_data |>
+  drop_na() |>
+  select(adj_driving_distance)
+
+```
+
+```{r}
+#| echo: false
+#| results: 'hide' 
+#| cache: TRUE 
+model_data <- brm(formula = adj_driving_distance ~ 1, data = first_model, family = gaussian(), silent = 2, refresh = 0, seed = 12)
+
+model_data
+tbl_regression(model_data, intercept = TRUE)
+
+```
+
+```{r}
+#| echo: false
+#| fig-width: 10
+#| fig-height: 6
+newdata <- tibble(.rows = 1)
+ndata <- tibble(.rows = 1)
+
+model_data |> 
+  add_predicted_draws(newdata = ndata) |>
+  ggplot(aes(x = .prediction)) + 
+   geom_histogram(aes(y = after_stat(count / sum(count))), bins = 100, fill = "cyan", color = "black", alpha = 0.7) + 
+  labs(title = "Posterior for average driving distance", x = "Average Driving Distance", y ="Probability") + scale_x_continuous(labels = scales::number_format()) + 
+  scale_y_continuous(labels = scales::percent_format(accuracy = 1))
+```
+
+```{r}
+
+model_data |> 
+  add_predicted_draws(newdata = ndata) |>
+  mutate(lengthy_drive = if_else(.prediction >= 300, TRUE, FALSE)) |>
+  summarize(odds = mean(lengthy_drive))
+model_data |> 
+  add_predicted_draws(newdata = ndata) |>
+  mutate(lengthy_drive = if_else(.prediction >= 280, TRUE, FALSE)) |>
+  summarize(odds = mean(lengthy_drive))
+
+```
+#### So 6% of the time at tournaments PGA players could drive over 300 yards on average. However, 86% of the time at tournament, they could drive it over 280 yards on average. Different factors can disrupt this, such as the difficulty of the course making it trickier to drive longer. However, in general, we see that gaining those extra 20 yards is extremely difficult.

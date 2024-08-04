@@ -1,0 +1,100 @@
+---
+title: "Model"
+format: html
+---
+
+I used a Gaussian Predictive Model (GPM) to calculate the average score to par, driving distance, and course yardage based on data from 91 PGA golf courses. The model follows the formula:
+
+$$
+y_i = \mu + \epsilon_i
+$$
+
+Where:
+
+-  **y~i~** is the average score, driving distance, or yardage of course ***i***.
+
+- $\mu$ is the average score, driving distance, or yardage across all PGA courses.
+
+- The error term ***i***, the difference between the obbserved and predicted value, follows a normal distribution with mean 0 which can be written as:
+
+$$
+\epsilon_i \sim \mathcal{N}(0, \sigma^2)
+$$
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+#| cache: TRUE
+library(tidyverse)
+library(brms)
+library(tidybayes)
+library(gtsummary)
+```
+Details about model used-
+```{r}
+#| cache: TRUE
+#| echo: false
+#| message: false
+golf_data <- read_csv("dg_new_course_table.csv")
+
+first_model <- golf_data |>
+  drop_na() |>
+  select(adj_score_to_par)
+
+model_data_1 <- brm(formula = adj_score_to_par ~ 1, data = first_model, family = gaussian(), silent = 2, refresh = 0, seed = 12)
+
+model_data_1
+```
+
+For first graph - 
+```{r}
+#| echo: false
+
+library(gtsummary)
+tbl_regression(model_data_1, intercept = TRUE)
+```
+
+For second graph - 
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+#| cache: TRUE
+library(tidyverse)
+library(brms)
+library(tidybayes)
+library(gtsummary)
+golf_data <- read_csv("dg_new_course_table.csv")
+
+second_model <- golf_data |>
+  drop_na() |>
+  select(adj_driving_distance)
+model_data_2 <- brm(formula = adj_driving_distance ~ 1, data = second_model, family = gaussian(), silent = 2, refresh = 0, seed = 12)
+
+tbl_regression(model_data_2, intercept = TRUE)
+```
+
+For third graph -
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+#| cache: TRUE
+
+library(tidyverse)
+library(brms)
+library(tidybayes)
+library(gtsummary)
+golf_data <- read_csv("dg_new_course_table.csv")
+
+third_model <- golf_data |>
+  drop_na() |>
+  select(yardage)
+model_data_3 <- brm(formula = yardage ~ 1, data = third_model, family = gaussian(), silent = 2, refresh = 0, seed = 12)
+
+tbl_regression(model_data_3, intercept = TRUE)
+```
+
+
+
+
