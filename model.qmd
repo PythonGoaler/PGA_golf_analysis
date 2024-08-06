@@ -3,7 +3,13 @@ title: "Model"
 format: html
 ---
 
-I used a Gaussian Predictive Model (GPM) to calculate the average score to par, driving distance, and course yardage based on data from 91 PGA golf courses. The model follows the formula:
+I used the same model for all graphs, but a different formula for yardage. 
+
+I used a Gaussian Predictive Model (GPM) to calculate the average score to par, driving distance, and course yardage based on data from 91 PGA golf courses. 
+
+For the first two graphs - 
+
+The model follows the formula:
 
 $$
 y_i = \mu + \epsilon_i
@@ -11,15 +17,37 @@ $$
 
 Where:
 
--  **y~i~** is the average score, driving distance, or yardage of course ***i***.
+-  **y~i~** is the average score or driving distance of course ***i***.
 
-- $\mu$ is the average score, driving distance, or yardage across all PGA courses.
+- $\mu$ is the average score or driving distance across all PGA courses.
 
-- The error term ***i***, the difference between the obbserved and predicted value, follows a normal distribution with mean 0 which can be written as:
+- The error term ***i***, the difference between the observed and predicted value, follows a normal distribution with mean 0 which can be written as:
 
 $$
 \epsilon_i \sim \mathcal{N}(0, \sigma^2)
 $$
+<br>
+<br>
+
+For the last graph, the model follows the formula 
+
+$$
+score_i = \beta_0 + \beta_1 \cdot yardage_i + \epsilon_i
+$$
+Where:
+
+- $\beta_0$ is the intercept term
+
+- $\beta_1$ is the coefficient for the yardage
+
+- *yardage~i~* is the yardage for the *i*-th observation
+
+-  $\epsilon_i$, the error term, is difference between the observed and predicted value, follows a normal distribution with mean 0 which can be written as:
+
+$$
+\epsilon_i \sim \mathcal{N}(0, \sigma^2)
+$$
+
 ```{r}
 #| echo: false
 #| message: false
@@ -49,7 +77,8 @@ model_data_1
 For first graph - 
 ```{r}
 #| echo: false
-
+#| message: false
+#| warning: false
 library(gtsummary)
 tbl_regression(model_data_1, intercept = TRUE)
 ```
@@ -94,7 +123,4 @@ model_data_3 <- brm(formula = yardage ~ 1, data = third_model, family = gaussian
 
 tbl_regression(model_data_3, intercept = TRUE)
 ```
-
-
-
 

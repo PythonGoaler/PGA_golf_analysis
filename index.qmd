@@ -8,9 +8,6 @@ execute:
   message: false
   warning: false
 ---
-## Overview
-
-##### Using data about 91 PGA courses, this project models three variables in the dataset to draw deep and interesting conclusions about golf. More specifically, the project modeled the score, driving distance, and yardage. I used a predictive model for all three of the graphs. For the predictive models, we see how the difficulty of courses are well balanced, driving over 300 yards is very tough while driving over 280 yards is easy, and finally, we see that yardage has no effect on the score.
 
 <br> 
 ```{r}
@@ -62,10 +59,12 @@ ggplot(model_data_1 |> add_predicted_draws(newdata = ndata), aes(x = .prediction
 ```
 
 ```{r}
-model_data_1 |> 
+result <- model_data_1 |> 
   add_predicted_draws(newdata = ndata) |>
   mutate(above_par = if_else(.prediction > 0, TRUE, FALSE)) |>
   summarize(odds = mean(above_par))
 
+# Print the only element of the tibble
+cat("Probability of Course Playing above Par:", result |> pull(odds), "\n")
 ```
-#### In this run of the model, we see that there is about a 50% chance for the course to be playing above par. This shows that there's a good balance between hard and easy courses in the PGA.
+#### Golf has so many moving variables, and it can be hard to make sense of all of them. In this project, I used data from datagolf.com about 91 PGA courses, to extract informatiion about the score, driving distance, and yardage. I modeling three variables in the dataset to draw deep and interesting conclusions about golf, and to make some sense of the game. More specifically, the project modeled the score, driving distance, and yardage. I used a predictive model for all three of the graphs. In this project, we see how the difficulty of courses are well balanced, driving over 300 yards is very tough while driving over 280 yards is easy, and finally, we see that yardage has no effect on the score.

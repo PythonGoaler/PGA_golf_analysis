@@ -67,26 +67,4 @@ ggplot(predicted_data, aes(x = .prediction, group = yardage, color = yardage)) +
   guides(color = guide_colorbar(barwidth = 1.5, barheight = 10))  
 # Adjust legend size
 
-ggplot(predicted_data, aes(x = .prediction, group = yardage, color = yardage)) +
-  geom_density(alpha = 0.6, size = 0.4) +  # Adjusted transparency and line thickness
-  geom_rug(sides = "b", alpha = 0.3, color = "black") +  # Added rug plot for data points
-  labs(
-    title = "Predictive Posterior for Relation between Yardage and Score",
-    subtitle = "Each line represents a separate yardage",
-    x = "Predicted Score",
-    y = "Density",  # Changed to 'Density' to better match geom_density()
-    color = "Yardage"
-  ) +
-  theme_light() +  # Changed theme for a different look
-  theme(
-    legend.position = "right",  # Show legend for better understanding
-    legend.title = element_text(size = 12, face = "bold"),
-    legend.text = element_text(size = 10),
-    axis.title = element_text(size = 12, face = "bold"),
-    axis.text = element_text(size = 10, angle = 45, hjust = 1),  # Rotated x-axis labels for better readability
-    panel.grid.major = element_line(color = "grey90"),
-    panel.grid.minor = element_blank()
-  ) +
-  scale_color_viridis_c(option = "plasma", begin = 0.1, end = 0.9) +  # Adjust gradient
-  guides(color = guide_colorbar(barwidth = 1.5, barheight = 10))  # Adjust legend size
 ```
